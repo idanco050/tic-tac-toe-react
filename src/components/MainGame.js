@@ -16,7 +16,7 @@ const MainGame = () =>
     }
     return(
         <div className ="main-game">
-            <h1>Tic Tac Toe Game!</h1>
+            <h1 className = "tic-header">Tic Tac Toe Game!</h1>
     <h1>{isWinner}</h1>
     <Board curTurn = {turn} swapTurn = {changeTurn} winnerCheck = {winnerCheck}></Board>
     <h1>its {turn} turn!</h1>
