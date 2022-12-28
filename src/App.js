@@ -2,7 +2,7 @@ import MainGame from './components/MainGame.js'
 import './App.css';
 function App() {
   return (
-    <div>
+    <div className ="App">
       <MainGame></MainGame>
     </div>
   );

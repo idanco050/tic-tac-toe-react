@@ -18,7 +18,9 @@ const[turn , setTurn] = useState(props.curTurn)
 const[board,setBoard] = useState(["","","","","","","","",""])
 
 useEffect(() => {
-    isWinner()
+    if (!isWinner()){
+    isTie();
+    }
 }, [board])
 const swapTurn = (ind) =>
 {
@@ -52,6 +54,7 @@ else{
 }
 const isWinner = () =>
 {
+    let isWin = false;
         console.log(board)
         patterns.forEach((curPat) =>{
             const fPlayer = board[curPat[0]];
@@ -68,15 +71,34 @@ const isWinner = () =>
             });
             if(win)
                 {
+                    isWin = true;
                     if (turn === "X"){
                         props.winnerCheck("the O player win!!!")
                         }
                         else{
                             props.winnerCheck("the X player win!!!")
                         }
+                        
                     } 
         });
-          
+    return isWin;     
+}
+
+const isTie = () =>
+{
+    let tie = true;
+    board.map((val) =>
+    {
+        if(val === "")
+        {
+            tie = false;
+        }
+    });
+if(tie)
+{
+    props.winnerCheck("its a Tie!!!");
+}
+
 }
 
 const resetButtonHandler = ()=>

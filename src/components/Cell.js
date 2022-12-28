@@ -4,7 +4,9 @@ const Cell = (props) =>
 {
     const handleClick = () =>
     {
+        if(props.val === ""){
         props.swapTurn(props.ind)
+        }
     }
 return(
 <div className="cell" onClick ={handleClick}>
