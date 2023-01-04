@@ -1,6 +1,8 @@
 import Cell from './Cell.js'
 import './Board.css'
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useContext} from 'react'
+import HistoryContext from '../HistoryContext.js'
+
 
 const patterns = [
     [0, 1, 2],
@@ -14,8 +16,11 @@ const patterns = [
 ];
 const Board = (props) =>
 {
-const[turn , setTurn] = useState(props.curTurn)
+const {addToHistory} = useContext(HistoryContext);
+const {historyList}  =useContext(HistoryContext);
+const[turn , setTurn] = useState(props.curTurn);
 const[board,setBoard] = useState(["","","","","","","","",""])
+
 
 useEffect(() => {
     if (!isWinner()){
@@ -55,10 +60,8 @@ else{
 const isWinner = () =>
 {
     let isWin = false;
-        console.log(board)
         patterns.forEach((curPat) =>{
             const fPlayer = board[curPat[0]];
-            console.log(fPlayer);
             if(fPlayer === "")
             {
                 return;
@@ -71,11 +74,17 @@ const isWinner = () =>
             });
             if(win)
                 {
+                    var currentDate = new Date();
+                    var date = currentDate.toLocaleString();
                     isWin = true;
                     if (turn === "X"){
                         props.winnerCheck("the O player win!!!")
+                        let winner = "O"
+                        addToHistory(winner,date)
                         }
                         else{
+                            let winner = "X"
+                            addToHistory(winner,date)
                             props.winnerCheck("the X player win!!!")
                         }
                         
@@ -96,6 +105,9 @@ const isTie = () =>
     });
 if(tie)
 {
+    var currentDate = new Date();
+    var date = currentDate.toLocaleString();
+    addToHistory("draw",date)
     props.winnerCheck("its a Tie!!!");
 }
 
@@ -114,15 +126,10 @@ const resetButtonHandler = ()=>
     return(
         <div>
         <div className = "game-board">
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[0]} ind = {0}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[1]} ind = {1}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[2]} ind = {2}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[3]} ind = {3}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[4]} ind = {4}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[5]} ind = {5}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[6]} ind = {6}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[7]} ind = {7}></Cell>
-        <Cell turn ={turn} swapTurn = {swapTurn}  val ={board[8]} ind = {8}></Cell>
+        {board.map((val,index)=>
+        {
+            return(<Cell turn ={turn} swapTurn = {swapTurn}  val ={val} ind = {index}></Cell>);
+        })}
         </div>
         <button className ="reset-button" onClick = {resetButtonHandler}>Reset</button>
         </div>

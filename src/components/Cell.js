@@ -1,5 +1,4 @@
 import "./Cell.css"
-import {useState} from 'react'
 const Cell = (props) =>
 {
     const handleClick = () =>

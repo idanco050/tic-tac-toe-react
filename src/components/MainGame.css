@@ -5,5 +5,7 @@
     
 }
 .tic-header{
-    ;
+    background-image: url("./images/header.jpeg");
+    height: 250px;
+    align-items: center;
 }
