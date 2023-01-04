@@ -3,7 +3,7 @@ const Cell = (props) =>
 {
     const handleClick = () =>
     {
-        if(props.val === ""){
+        if(props.val === "" && props.win === false){
         props.swapTurn(props.ind)
         }
     }

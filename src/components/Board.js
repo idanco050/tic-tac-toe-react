@@ -19,6 +19,7 @@ const Board = (props) =>
 const {addToHistory} = useContext(HistoryContext);
 const {historyList}  =useContext(HistoryContext);
 const[turn , setTurn] = useState(props.curTurn);
+const[isWin ,setIsWin] =useState(false)
 const[board,setBoard] = useState(["","","","","","","","",""])
 
 
@@ -74,6 +75,7 @@ const isWinner = () =>
             });
             if(win)
                 {
+                    setIsWin(true);
                     var currentDate = new Date();
                     var date = currentDate.toLocaleString();
                     isWin = true;
@@ -120,7 +122,8 @@ const resetButtonHandler = ()=>
     }));
     setTurn("X");
     props.swapTurn("X");
-    props.winnerCheck("")
+    props.winnerCheck("");
+    setIsWin(false);
 
 }
     return(
@@ -128,7 +131,7 @@ const resetButtonHandler = ()=>
         <div className = "game-board">
         {board.map((val,index)=>
         {
-            return(<Cell turn ={turn} swapTurn = {swapTurn}  val ={val} ind = {index}></Cell>);
+            return(<Cell turn ={turn} swapTurn = {swapTurn}  val ={val} ind = {index} win ={isWin}></Cell>);
         })}
         </div>
         <button className ="reset-button" onClick = {resetButtonHandler}>Reset</button>
