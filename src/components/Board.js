@@ -1,5 +1,6 @@
 import Cell from './Cell.js'
 import './Board.css'
+import moment from 'moment'
 import {useState,useEffect,useContext} from 'react'
 import HistoryContext from '../HistoryContext.js'
 
@@ -17,7 +18,6 @@ const patterns = [
 const Board = (props) =>
 {
 const {addToHistory} = useContext(HistoryContext);
-const {historyList}  =useContext(HistoryContext);
 const[turn , setTurn] = useState(props.curTurn);
 const[isWin ,setIsWin] =useState(false)
 const[board,setBoard] = useState(["","","","","","","","",""])
@@ -76,8 +76,7 @@ const isWinner = () =>
             if(win)
                 {
                     setIsWin(true);
-                    var currentDate = new Date();
-                    var date = currentDate.toLocaleString();
+                    let date = moment().format('D/MM/YYYY');
                     isWin = true;
                     if (turn === "X"){
                         props.winnerCheck("the O player win!!!")
@@ -107,9 +106,8 @@ const isTie = () =>
     });
 if(tie)
 {
-    var currentDate = new Date();
-    var date = currentDate.toLocaleString();
-    addToHistory("draw",date)
+    let dateFormat2 = moment().format('D/MM/YYYY');
+    addToHistory("draw",dateFormat2)
     props.winnerCheck("its a Tie!!!");
 }
 
@@ -131,7 +129,7 @@ const resetButtonHandler = ()=>
         <div className = "game-board">
         {board.map((val,index)=>
         {
-            return(<Cell turn ={turn} swapTurn = {swapTurn}  val ={val} ind = {index} win ={isWin}></Cell>);
+            return(<Cell key ={index} turn ={turn} swapTurn = {swapTurn}  val ={val} ind = {index} win ={isWin}></Cell>);
         })}
         </div>
         <button className ="reset-button" onClick = {resetButtonHandler}>Reset</button>

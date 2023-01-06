@@ -1,24 +1,36 @@
 import {createContext , useState, useEffect} from 'react'
 import writeToJSOM from './filesController.js'
-
+import axios from 'axios'
 const HistoryContext = createContext();
 
 export function HistoryProvider({children}){
 
 const [historyList , setHistoryList] = useState([]);
 
-
 useEffect(() => {
-const data = localStorage.getItem('HISTORY_LIST');
-console.log(data);
-if ( data !== null ) setHistoryList(...historyList,JSON.parse(data));
+axios.get('http://localhost:4000/').then(response => {
+    let list = []
+    if(response.data === "file is empty")
+    {
+        setHistoryList(...historyList,list)
+    }
+    else
+    {
+        console.log(response.data)
+        response.data.forEach(element => {
+            list.push(element)
+        });
+        
+        setHistoryList(...historyList,list)
+    }
+  });
+console.log(historyList)
 },[]);
 
 useEffect(()=>{
     if(historyList.length)
     {
-    localStorage.setItem('HISTORY_LIST',JSON.stringify(historyList));
-    console.log("saved");
+        axios.post('http://localhost:4000/', historyList);
     }
     },[historyList]);
     
