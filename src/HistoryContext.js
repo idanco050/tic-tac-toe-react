@@ -1,5 +1,4 @@
 import {createContext , useState, useEffect} from 'react'
-import writeToJSOM from './filesController.js'
 import axios from 'axios'
 const HistoryContext = createContext();
 
@@ -27,15 +26,19 @@ axios.get('http://localhost:4000/').then(response => {
 console.log(historyList)
 },[]);
 
-useEffect(()=>{
+/*/useEffect(()=>{
     if(historyList.length)
     {
-        axios.post('http://localhost:4000/', historyList);
+        
     }
     },[historyList]);
+
+/*/
     
 
 const addToHistory = (winningPlayer,date) =>{
+    console.log({winningPlayer,date})
+    axios.post('http://localhost:4000/',{winningPlayer,date});
     setHistoryList((prevState) => [...prevState , {winningPlayer,date}]);
     console.log(historyList);
     
